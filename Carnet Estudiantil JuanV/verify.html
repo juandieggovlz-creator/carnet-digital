@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verificación Estudiante - UAJS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e8f5e9 0%, #f1f8f4 50%, #e0f2f1 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Patrón de fondo animado */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(0, 102, 51, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 102, 51, 0.04) 0%, transparent 50%);
+            animation: backgroundMove 15s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes backgroundMove {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 480px;
+            width: 100%;
+            background: white;
+            border-radius: 32px;
+            box-shadow: 
+                0 20px 60px rgba(0, 102, 51, 0.18),
+                0 0 0 1px rgba(0, 102, 51, 0.06);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* ========================================== */
+        /* HEADER CON LOGO INSTITUCIONAL */
+        /* ========================================== */
+        .header {
+            background: linear-gradient(135deg, #006633 0%, #004d26 100%);
+            padding: 48px 32px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efectos de fondo decorativos */
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -60%;
+            right: -40%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 70%);
+            animation: floatCircle1 10s ease-in-out infinite;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -40%;
+            left: -30%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+            animation: floatCircle2 12s ease-in-out infinite;
+        }
+
+        @keyframes floatCircle1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-30px, 30px) scale(1.1); }
+        }
+
+        @keyframes floatCircle2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -20px) scale(1.05); }
+        }
+
+        /* LOGO INSTITUCIONAL */
+        .logo-institucional {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 28px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            animation: logoEntry 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s both;
+            padding: 16px;
+        }
+
+        @keyframes logoEntry {
+            from {
+                transform: scale(0) rotate(-180deg);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1) rotate(0);
+                opacity: 1;
+            }
+        }
+
+        /* Brillo en el logo */
+        .logo-institucional::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+            animation: logoShine 3s infinite;
+        }
+
+        @keyframes logoShine {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+
+        .logo-institucional img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+        }
+
+        /* Badge de verificación */
+        .status-badge {
+            position: relative;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: rgba(76, 175, 80, 0.15);
+            backdrop-filter: blur(20px);
+            padding: 16px 32px;
+            border-radius: 100px;
+            margin-bottom: 24px;
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.2);
+            animation: badgeEntry 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s both;
+        }
+
+        @keyframes badgeEntry {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .check-icon {
+            width: 36px;
+            height: 36px;
+            background: #4caf50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+            animation: checkPulse 2.5s ease-in-out infinite;
+        }
+
+        @keyframes checkPulse {
+            0%, 100% {
+                transform: scale(1);
+                box-shadow: 0 4px 16px rgba(76, 175, 80, 0.4);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 6px 20px rgba(76, 175, 80, 0.6);
+            }
+        }
+
+        .status-text {
+            color: white;
+            font-weight: 900;
+            font-size: 20px;
+            letter-spacing: 1.5px;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Información de la universidad */
+        .university-info {
+            position: relative;
+            z-index: 2;
+            animation: fadeInUp 0.6s ease 0.6s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .university-info h1 {
+            color: white;
+            font-size: 24px;
+            font-weight: 900;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+            line-height: 1.3;
+        }
+
+        .university-info p {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.6;
+        }
+
+        /* ========================================== */
+        /* CONTENIDO - CÓDIGO ESTUDIANTIL */
+        /* ========================================== */
+        .content {
+            padding: 56px 32px;
+            text-align: center;
+            background: linear-gradient(180deg, white 0%, #fafff9 100%);
+        }
+
+        .code-section {
+            animation: fadeInUp 0.6s ease 0.8s both;
+        }
+
+        .code-title {
+            font-size: 16px;
+            font-weight: 800;
+            color: #006633;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .code-title svg {
+            color: #006633;
+            animation: iconRotate 3s ease-in-out infinite;
+        }
+
+        @keyframes iconRotate {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(10deg); }
+        }
+
+        /* Contenedor del código */
+        .code-container {
+            background: linear-gradient(135deg, rgba(0, 102, 51, 0.08) 0%, rgba(0, 102, 51, 0.04) 100%);
+            padding: 48px 32px;
+            border-radius: 24px;
+            border: 4px dashed rgba(0, 102, 51, 0.25);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 
+                0 10px 30px rgba(0, 102, 51, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.5);
+        }
+
+        /* Efecto de brillo en el contenedor */
+        .code-container::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.3) 50%, transparent 100%);
+            animation: containerShine 4s infinite;
+        }
+
+        @keyframes containerShine {
+            0% { transform: translateX(-100%) translateY(-100%); }
+            100% { transform: translateX(100%) translateY(100%); }
+        }
+
+        /* Decoración de fondo */
+        .code-container::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(0, 102, 51, 0.03) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        .code-value {
+            position: relative;
+            z-index: 1;
+            font-size: 52px;
+            font-weight: 900;
+            color: #1a1a1a;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 8px;
+            text-shadow: 
+                0 2px 4px rgba(0, 0, 0, 0.08),
+                0 4px 12px rgba(0, 102, 51, 0.1);
+            line-height: 1.2;
+            animation: codeGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes codeGlow {
+            0%, 100% {
+                text-shadow: 
+                    0 2px 4px rgba(0, 0, 0, 0.08),
+                    0 4px 12px rgba(0, 102, 51, 0.1);
+            }
+            50% {
+                text-shadow: 
+                    0 2px 4px rgba(0, 0, 0, 0.08),
+                    0 4px 12px rgba(0, 102, 51, 0.2),
+                    0 0 30px rgba(0, 102, 51, 0.15);
+            }
+        }
+
+        /* Nota informativa */
+        .info-note {
+            margin-top: 32px;
+            padding: 20px 24px;
+            background: rgba(0, 102, 51, 0.04);
+            border-radius: 16px;
+            border-left: 4px solid #006633;
+            animation: fadeInUp 0.6s ease 1s both;
+        }
+
+        .info-note p {
+            font-size: 14px;
+            color: #666;
+            font-weight: 600;
+            line-height: 1.6;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-note svg {
+            color: #006633;
+            flex-shrink: 0;
+        }
+
+        /* ========================================== */
+        /* FOOTER */
+        /* ========================================== */
+        .footer {
+            padding: 32px 28px;
+            background: linear-gradient(135deg, rgba(0, 102, 51, 0.04) 0%, rgba(0, 102, 51, 0.02) 100%);
+            border-top: 2px solid rgba(0, 102, 51, 0.08);
+            text-align: center;
+            animation: fadeInUp 0.6s ease 1.1s both;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #666;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: 0.3px;
+        }
+
+        .timestamp {
+            font-size: 12px;
+            color: #999;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .timestamp svg {
+            color: #006633;
+            animation: clockTick 2s ease-in-out infinite;
+        }
+
+        @keyframes clockTick {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(360deg); }
+        }
+
+        /* ========================================== */
+        /* ESTADO DE ERROR */
+        /* ========================================== */
+        .header.error {
+            background: linear-gradient(135deg, #c62828, #b71c1c);
+        }
+
+        .status-badge.error {
+            background: rgba(239, 83, 80, 0.15);
+            border-color: rgba(239, 83, 80, 0.3);
+        }
+
+        .check-icon.error {
+            background: #ef5350;
+        }
+
+        .error-container {
+            padding: 60px 32px;
+            text-align: center;
+            animation: fadeInUp 0.6s ease 0.8s both;
+        }
+
+        .error-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #ffebee, #ffcdd2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 32px;
+            border: 5px solid rgba(198, 40, 40, 0.2);
+            animation: errorShake 0.6s ease;
+        }
+
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-15px) rotate(-5deg); }
+            75% { transform: translateX(15px) rotate(5deg); }
+        }
+
+        .error-container h2 {
+            color: #c62828;
+            font-size: 28px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .error-container p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.8;
+            font-weight: 500;
+        }
+
+        /* ========================================== */
+        /* RESPONSIVE */
+        /* ========================================== */
+        @media (max-width: 480px) {
+            .header {
+                padding: 40px 24px;
+            }
+
+            .logo-institucional {
+                width: 100px;
+                height: 100px;
+            }
+
+            .status-text {
+                font-size: 18px;
+            }
+
+            .university-info h1 {
+                font-size: 20px;
+            }
+
+            .content {
+                padding: 44px 24px;
+            }
+
+            .code-value {
+                font-size: 40px;
+                letter-spacing: 5px;
+            }
+
+            .code-container {
+                padding: 36px 24px;
+            }
+        }
+
+        /* Animación de carga */
+        .loading {
+            text-align: center;
+            padding: 80px 20px;
+        }
+
+        .loading-spinner {
+            width: 70px;
+            height: 70px;
+            border: 5px solid rgba(0, 102, 51, 0.1);
+            border-top-color: #006633;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 24px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: #666;
+            font-weight: 700;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="mainContainer">
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <p>Verificando estudiante...</p>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // BASE DE DATOS DE ESTUDIANTES
+        // ==========================================
+        const studentsDB = {
+            '1104254361': {
+                name: 'Juan Diego Vélez Mejía',
+                cc: '1104254361',
+                code: '024100210',
+                university: 'Corporación Universitaria Antonio José de Sucre',
+                location: 'Sincelejo, Colombia',
+                status: 'Activo',
+                logo: 'logo.png'  // Logo institucional
+            }
+            // Puedes agregar más estudiantes aquí
+        };
+
+        // ==========================================
+        // OBTENER ID DE LA URL
+        // ==========================================
+        function getStudentId() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        // ==========================================
+        // RENDERIZAR VISTA VERIFICADA
+        // ==========================================
+        function renderVerified(student) {
+            const now = new Date();
+            const timestamp = now.toLocaleString('es-CO', {
+                weekday: 'long',
+                day: '2-digit',
+                month: 'long',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+
+            const logoHTML = student.logo
+                ? `<img src="${student.logo}" alt="Logo UAJS">`
+                : `<svg width="70" height="70" viewBox="0 0 100 100" fill="white" opacity="0.4">
+                     <circle cx="50" cy="50" r="42" stroke="white" stroke-width="3" fill="none"/>
+                     <text x="50" y="68" font-size="50" text-anchor="middle" font-weight="bold">U</text>
+                   </svg>`;
+
+            return `
+                <div class="header">
+                    <div class="logo-institucional">
+                        ${logoHTML}
+                    </div>
+                    
+                    <div class="status-badge">
+                        <div class="check-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </div>
+                        <span class="status-text">VERIFICADO</span>
+                    </div>
+                    
+                    <div class="university-info">
+                        <h1>${student.university}</h1>
+                        <p>${student.location}</p>
+                    </div>
+                </div>
+
+                <div class="content">
+                    <div class="code-section">
+                        <div class="code-title">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                            </svg>
+                            Código Estudiantil
+                        </div>
+                        
+                        <div class="code-container">
+                            <div class="code-value">${student.code}</div>
+                        </div>
+
+                        <div class="info-note">
+                            <p>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M12 16v-4"></path>
+                                    <path d="M12 8h.01"></path>
+                                </svg>
+                                Este estudiante está activo y tiene derecho a beneficios estudiantiles
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <div class="footer-text">Corporación Universitaria Antonio José de Sucre</div>
+                    <div class="timestamp">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        Verificado: ${timestamp}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // RENDERIZAR ERROR
+        // ==========================================
+        function renderError() {
+            return `
+                <div class="header error">
+                    <div class="logo-institucional">
+                        <svg width="70" height="70" viewBox="0 0 100 100" fill="white" opacity="0.4">
+                            <circle cx="50" cy="50" r="42" stroke="white" stroke-width="3" fill="none"/>
+                            <text x="50" y="68" font-size="50" text-anchor="middle" font-weight="bold">U</text>
+                        </svg>
+                    </div>
+                    
+                    <div class="status-badge error">
+                        <div class="check-icon error">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="round">
+                                <line x1="18" y1="6" x2="6" y2="18"></line>
+                                <line x1="6" y1="6" x2="18" y2="18"></line>
+                            </svg>
+                        </div>
+                        <span class="status-text">NO VERIFICADO</span>
+                    </div>
+                    
+                    <div class="university-info">
+                        <h1>Error de Verificación</h1>
+                        <p>Carnet estudiantil no válido</p>
+                    </div>
+                </div>
+
+                <div class="error-container">
+                    <div class="error-icon">
+                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="#c62828" stroke-width="2.5">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                    </div>
+                    <h2>Estudiante No Encontrado</h2>
+                    <p style="margin-bottom: 20px;">El código QR escaneado no corresponde a ningún registro en el sistema.</p>
+                    <p style="font-size: 14px; color: #999;">Verifica que el código sea válido o contacta con la universidad.</p>
+                </div>
+
+                <div class="footer">
+                    <div class="footer-text">Corporación Universitaria Antonio José de Sucre</div>
+                </div>
+            `;
+        }
+
+        // ==========================================
+        // INICIALIZAR
+        // ==========================================
+        document.addEventListener('DOMContentLoaded', () => {
+            const container = document.getElementById('mainContainer');
+            const studentId = getStudentId();
+
+            console.log('🔍 ID recibido:', studentId);
+
+            // Simular tiempo de carga realista
+            setTimeout(() => {
+                if (!studentId) {
+                    console.log('❌ No hay ID en la URL');
+                    container.innerHTML = renderError();
+                    return;
+                }
+
+                const student = studentsDB[studentId];
+                console.log('👤 Estudiante encontrado:', student);
+
+                if (student && student.status === 'Activo') {
+                    container.innerHTML = renderVerified(student);
+                    console.log('✅ Verificación exitosa');
+                } else {
+                    container.innerHTML = renderError();
+                    console.log('❌ Estudiante no encontrado o inactivo');
+                }
+            }, 1200);
+        });
+    </script>
+</body>
+</html>
